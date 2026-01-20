@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="theme-color" content="#020b16">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>Giochi Biblici - TV Edition</title>
+    
+    <meta property="og:title" content="GIOCHI BIBLICI ISPIRATI A CELEBRI PROGRAMMI TV">
+    <meta property="og:description" content="Mettiti alla prova con i quiz biblici più famosi della TV!">
+    <meta property="og:image" content="https://asarritzu-boop.github.io/PuzzleNGames-/icona.png">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="https://asarritzu-boop.github.io/PuzzleNGames-/icona.png" type="image/png">
+
+    <style>
+        :root {
+            --main-blue: #00d2ff;
+            --bg-dark-blue: #020b16;
+            --text-clean: #ffffff;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0a1e3d 0%, var(--bg-dark-blue) 100%);
+            color: var(--text-clean);
+            /* Font pulito e molto leggibile */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-icon {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 15px var(--main-blue));
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            color: var(--main-blue);
+        }
+
+        .tagline {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .btn {
+            background: rgba(0, 210, 255, 0.1);
+            border: 2px solid var(--main-blue);
+            color: white;
+            padding: 20px;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            /* Testo pulsanti maiuscolo e leggibile */
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--main-blue);
+            color: var(--bg-dark-blue);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.6);
+            transform: scale(1.03);
+        }
+
+        .subtitle {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: none; /* Mantiene la descrizione minuscola per contrasto */
+            margin-top: 6px;
+            font-weight: 400;
+            letter-spacing: 0;
+            opacity: 0.9;
+        }
+
+        .share-btn {
+            margin-top: 50px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 12px 25px;
+            font-size: 0.85rem;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .share-btn:hover {
+            background: white;
+            color: var(--bg-dark-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://asarritzu-boop.github.io/PuzzleNGames-/icona.png" alt="Icona" class="header-icon">
+    
+    <h1>Giochi Biblici</h1>
+    <div class="tagline">ispirato a celebri programmi TV</div>
+
+    <div class="container">
+        <a href="https://asarritzu-boop.github.io/GiustoSbagliato/" class="btn">
+            AVANTI UN ALTRO
+            <span class="subtitle">Indovina la risposta sbagliata</span>
+        </a>
+
+        <a href="https://asarritzu-boop.github.io/Milionario/" class="btn">
+            CHI VUOL ESSERE MILIONARIO
+            <span class="subtitle">Indovina la risposta esatta</span>
+        </a>
+
+        <a href="#" class="btn" style="opacity: 0.6; border-style: dotted;">
+            GHIGLIOTTINA
+            <span class="subtitle">Costruisci il soggetto</span>
+        </a>
+
+        <a href="https://asarritzu-boop.github.io/IndovinaFrase/" class="btn">
+            RUOTA DELLA FORTUNA
+            <span class="subtitle">Completa il tabellone</span>
+        </a>
+    </div>
+
+    <button class="share-btn" onclick="sharePage()">📤 CONDIVIDI GIOCHI</button>
+
+    <script>
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'GIOCHI BIBLICI TV',
+                    text: 'Divertiti con i quiz biblici ispirati ai programmi TV!',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert("Copia il link: " + window.location.href);
+            }
+        }
+    </script>
+
+</body>
+</html>
