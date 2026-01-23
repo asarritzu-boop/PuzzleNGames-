@@ -93,6 +93,10 @@
             transform: scale(1.03);
         }
 
+        .btn:active {
+            transform: scale(0.95);
+        }
+
         .subtitle {
             display: block;
             font-size: 0.75rem;
@@ -103,7 +107,6 @@
             opacity: 0.9;
         }
 
-        /* Contenitore pulsanti inferiori */
         .footer-actions {
             display: flex;
             gap: 10px;
@@ -130,12 +133,12 @@
             color: var(--bg-dark-blue);
         }
 
-        /* Stili per il Modal (Popup) */
+        /* MODAL STYLE */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -145,33 +148,30 @@
         .modal-content {
             background: #0a1e3d;
             border: 2px solid var(--main-blue);
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
-            max-width: 350px;
+            max-width: 400px;
             width: 100%;
             box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
+            position: relative;
         }
 
-        .modal-content p {
+        .tutorial-img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none; /* Nascosta inizialmente */
+            border: 1px solid var(--main-blue);
+        }
+
+        #modalTitle {
             font-weight: 700;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 1.1rem;
+            text-transform: uppercase;
         }
     </style>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a1a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('Service Worker registrato!'))
-            .catch(err => console.log('Errore SW:', err));
-        });
-      }
-    </script>
 </head>
 <body>
 
@@ -181,25 +181,10 @@
     <div class="tagline">ispirato a celebri programmi TV</div>
 
     <div class="container">
-        <a href="https://asarritzu-boop.github.io/GiustoSbagliato/" class="btn">
-            AVANTI UN ALTRO
-            <span class="subtitle">Indovina la risposta sbagliata</span>
-        </a>
-
-        <a href="https://asarritzu-boop.github.io/Milionario/" class="btn">
-            CHI VUOL ESSERE MILIONARIO
-            <span class="subtitle">Indovina la risposta esatta</span>
-        </a>
-
-        <a href="https://asarritzu-boop.github.io/Ghigliottina-/" class="btn">
-            GHIGLIOTTINA
-            <span class="subtitle">Costruisci il soggetto</span>
-        </a>
-
-        <a href="https://asarritzu-boop.github.io/IndovinaFrase/" class="btn">
-            RUOTA DELLA FORTUNA
-            <span class="subtitle">Completa il tabellone</span>
-        </a>
+        <a href="https://asarritzu-boop.github.io/GiustoSbagliato/" class="btn">🚫 AVANTI UN ALTRO <span class="subtitle">Indovina la risposta sbagliata</span></a>
+        <a href="https://asarritzu-boop.github.io/Milionario/" class="btn">💎 CHI VUOL ESSERE MILIONARIO <span class="subtitle">Indovina la risposta esatta</span></a>
+        <a href="https://asarritzu-boop.github.io/Ghigliottina-/" class="btn">🔪 GHIGLIOTTINA <span class="subtitle">Costruisci il soggetto</span></a>
+        <a href="https://asarritzu-boop.github.io/IndovinaFrase/" class="btn">🎡 RUOTA DELLA FORTUNA <span class="subtitle">Completa il tabellone</span></a>
     </div>
 
     <div class="footer-actions">
@@ -209,12 +194,21 @@
 
     <div id="installModal" class="modal-overlay">
         <div class="modal-content">
-            <p>HAI IPHONE O ANDROID?</p>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <button class="btn" style="padding: 15px;" onclick="window.open('xiphone.png', '_blank')">IPHONE</button>
-                <button class="btn" style="padding: 15px;" onclick="window.open('android.png', '_blank')">ANDROID</button>
+            <div id="selectionArea">
+                <p id="modalTitle">HAI IPHONE O ANDROID?</p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="btn" style="padding: 15px;" onclick="showTutorial('xiphone.png')">IPHONE</button>
+                    <button class="btn" style="padding: 15px;" onclick="showTutorial('android.png')">ANDROID</button>
+                </div>
             </div>
-            <button onclick="closeModal()" style="background:transparent; color:white; border:none; margin-top:20px; cursor:pointer; text-decoration:underline; opacity:0.7;">Annulla</button>
+
+            <div id="tutorialArea" style="display: none;">
+                <p style="font-size: 0.9rem; margin-bottom: 10px; color: var(--main-blue);">SEGUI LE ISTRUZIONI:</p>
+                <img id="insImg" src="" class="tutorial-img">
+                <button class="share-btn" style="margin-top: 20px; width: 100%;" onclick="resetModal()">⬅️ TORNA INDIETRO</button>
+            </div>
+
+            <button onclick="closeModal()" style="background:transparent; color:white; border:none; margin-top:20px; cursor:pointer; text-decoration:underline; opacity:0.7;">Chiudi</button>
         </div>
     </div>
 
@@ -231,8 +225,9 @@
             }
         }
 
-        // Funzioni per gestire il popup di installazione
+        // GESTIONE MODAL
         function openModal() {
+            resetModal();
             document.getElementById('installModal').style.display = 'flex';
         }
 
@@ -240,10 +235,22 @@
             document.getElementById('installModal').style.display = 'none';
         }
 
-        // Chiude il modal se si clicca fuori dal riquadro blu
+        function showTutorial(imgSrc) {
+            document.getElementById('selectionArea').style.display = 'none';
+            document.getElementById('tutorialArea').style.display = 'block';
+            const img = document.getElementById('insImg');
+            img.src = imgSrc;
+            img.style.display = 'block';
+        }
+
+        function resetModal() {
+            document.getElementById('selectionArea').style.display = 'block';
+            document.getElementById('tutorialArea').style.display = 'none';
+            document.getElementById('insImg').src = '';
+        }
+
         window.onclick = function(event) {
-            let modal = document.getElementById('installModal');
-            if (event.target == modal) {
+            if (event.target == document.getElementById('installModal')) {
                 closeModal();
             }
         }
